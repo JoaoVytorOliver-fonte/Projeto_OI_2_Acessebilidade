@@ -328,3 +328,11 @@ footer{
 .produto_card button:hover{
     background: linear-gradient(135deg,rgb(24,125,29),rgb(29,150,35));
 }
+
+/* FOOTER (hg fazendo)*/
+footer{
+    text-align: center;
+  padding: 30px;
+  background: rgba(120,220,120,0.55);
+  color: #050505;
+}
