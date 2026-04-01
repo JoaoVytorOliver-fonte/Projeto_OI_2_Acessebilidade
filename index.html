@@ -1,9 +1,112 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Landing Page</title>
+</head>
 
-    </head>
-    <body>
+<body>
+
+    <nav>
+        <div class="logo"><p>Johve</p></div>
+
+        <div class="menu">
+            <a href="#principal">Principal</a>
+            <a href="#promocao">Promoção</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#contato">Contato</a>
+        </div>
+
+        <div class="botao_nav"><p>Anuncie Agora</p></div>
+    </nav>
+
+    <div id="principal">
+        <div class="overlay"></div>
+
+        <div class="conteudo_principal">
+            <h1>Anuncie no Johve</h1>
+            <p>Conecte seu negócio a milhares de pessoas que procuram lugares acessíveis</p>
+            <div class="botao_home"><a href="#">Anuncie Agora</a></div>
+        </div>
         
-    </body>
+    </div>
+
+    <div id="promocao">
+        <div class="promo_container">
+            <h1>Johve Anuncio</h1>
+            <div class="promo_destaque">
+                <p class="promo_texto">
+                    Nosso site é uma plataforma dedicada a avaliar e divulgar estabelecimentos que oferecem boas condições de acessibilidade para cadeirantes e pessoas com mobilidade reduzida. Através de avaliações, informações detalhadas e feedback da comunidade, ajudamos milhares de pessoas a encontrar locais realmente preparados para receber todos com conforto e segurança.
+                </p>
+                <p class="promo_texto">
+                    Ao anunciar em nossa plataforma, seu estabelecimento passa a ser destacado para um público que busca ativamente lugares acessíveis.
+                </p>
+            </div>
+
+            <button class="botao_promo">Aproveitar Promoção</button>
+        </div>
+    </div>
+
+    <div id="produtos">
+        <div class="produtos_container">
+            <h1>Nossos Produtos</h1>
+
+            <div class="cards_produtos">
+                <div class="produto_card">
+                    <h2>Johve Cloud</h2>
+                    <p>
+                        Armazene dados com segurança e acesse de qualquer lugar.
+                    </p>
+
+                    <button>Saiba Mais</button>
+                </div>
+
+                <div class="produto_card">
+                    <h2>Johve Analytics</h2>
+                    <p>Analise dados da sua empresa com gráficos inteligentes. </p>
+                    <button>Saiba Mais</button>
+                </div>
+
+                <div class="produto_card">
+                    <h2>Johve AI</h2>
+                    <p>Automatize tarefas utilizando inteligência artificial.</p>
+                    <button>Saiba Mais</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="contato">
+        <div class="caixa_form">
+            <h1>Contato</h1>
+            <form action="#" method="post">
+                <label for="fnome">Nome:</label>
+                <input type="text" id="fnome" name="fnome" placeholder="Nome" required>
+                <label for="femail">E-mail:</label>
+                <input type="email" id="femail" name="femail" placeholder="E-mail" required>
+                <label for="festado">Estado:</label>
+
+                <select name="festado" id="festado">
+                    <option value="pr">PR</option>
+                    <option value="sc">SC</option>
+                    <option value="rs">RS</option>
+                </select>
+
+                <label for="fmsg">Mensagem:</label>
+
+                <textarea name="fmsg" rows="5" cols="30" placeholder="Informe a mensagem"></textarea>
+
+                <input type="submit" value="Enviar">
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>&copy2026 Todos os direitos reservados ao coelinho da pascoa</p>
+    </footer>
+
+</body>
 </html>
