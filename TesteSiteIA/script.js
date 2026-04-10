@@ -1,297 +1,201 @@
 /**
  * AcessiMap — script.js
  * ======================
- * Organização:
- *  1. Seletores de elementos do DOM
- *  2. Funções utilitárias
- *  3. Módulo: Sidebar (menu lateral)
- *  4. Módulo: Modal de Perfil
- *  5. Módulo: Modal do Mapa
- *  6. Módulo: Tabs (sistema de abas)
- *  7. Módulo: Scroll (animações + header)
- *  8. Inicialização
+ * Código modular e limpo em Vanilla JS
  */
 
 'use strict';
 
-/* ─────────────────────────────────────────────
-   1. SELETORES
-───────────────────────────────────────────── */
-const overlay        = document.getElementById('overlay');
-const header         = document.getElementById('header');
+// ==========================================
+// Seletores do DOM
+// ==========================================
+const DOM = {
+  overlay: document.getElementById('overlay'),
+  header: document.getElementById('header'),
+  
+  sidebar: {
+    el: document.getElementById('sidebar'),
+    btn: document.getElementById('hamburgerBtn'),
+    close: document.getElementById('sidebarClose'),
+    links: document.querySelectorAll('.sidebar__link')
+  },
+  
+  modals: {
+    profileBtn: document.getElementById('profileBtn'),
+    profileModal: document.getElementById('profileModal'),
+    profileClose: document.getElementById('profileModalClose')
+  },
+  
+  tabs: {
+    btns: document.querySelectorAll('.tab-btn'),
+    panels: document.querySelectorAll('.tab-panel')
+  },
 
-// Sidebar
-const sidebar        = document.getElementById('sidebar');
-const hamburgerBtn   = document.getElementById('hamburgerBtn');
-const sidebarClose   = document.getElementById('sidebarClose');
-const sidebarLinks   = sidebar.querySelectorAll('.sidebar__link');
+  animations: document.querySelectorAll('.animate-on-scroll')
+};
 
-// Modal Perfil
-const profileBtn         = document.getElementById('profileBtn');
-const profileModal       = document.getElementById('profileModal');
-const profileModalClose  = document.getElementById('profileModalClose');
-
-// Modal Mapa
-const mapBtn         = document.getElementById('mapBtn');
-const mapModal       = document.getElementById('mapModal');
-const mapModalClose  = document.getElementById('mapModalClose');
-
-// Tabs
-const tabBtns        = document.querySelectorAll('.tab-btn');
-const tabPanels      = document.querySelectorAll('.tab-panel');
-
-// Elementos com animação ao rolar
-const animEls        = document.querySelectorAll('.animate-on-scroll');
-
-
-/* ─────────────────────────────────────────────
-   2. UTILITÁRIOS
-───────────────────────────────────────────── */
-
-/**
- * Adiciona "is-active" ao overlay e trava o scroll do body.
- * Chamado sempre que um modal ou sidebar é aberto.
- */
-function openOverlay() {
-  overlay.classList.add('is-active');
-  document.body.style.overflow = 'hidden';
-}
-
-/**
- * Remove "is-active" do overlay e restaura o scroll do body.
- */
-function closeOverlay() {
-  overlay.classList.remove('is-active');
-  document.body.style.overflow = '';
-}
-
-/**
- * Move o foco para o primeiro elemento focável dentro de um container.
- * Importante para acessibilidade com teclado.
- * @param {HTMLElement} container - elemento pai onde buscar o foco
- */
-function trapFocus(container) {
-  const focusable = container.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-  );
-  if (focusable.length) focusable[0].focus();
-}
-
-
-/* ─────────────────────────────────────────────
-   3. MÓDULO: SIDEBAR
-───────────────────────────────────────────── */
-
-/** Abre a sidebar com animação deslizante */
-function openSidebar() {
-  sidebar.classList.add('is-open');
-  hamburgerBtn.classList.add('is-active');
-  hamburgerBtn.setAttribute('aria-expanded', 'true');
-  openOverlay();
-  trapFocus(sidebar);
-}
-
-/** Fecha a sidebar */
-function closeSidebar() {
-  sidebar.classList.remove('is-open');
-  hamburgerBtn.classList.remove('is-active');
-  hamburgerBtn.setAttribute('aria-expanded', 'false');
-  closeOverlay();
-  hamburgerBtn.focus(); // devolve foco ao botão
-}
-
-// Eventos da sidebar
-hamburgerBtn.addEventListener('click', () => {
-  sidebar.classList.contains('is-open') ? closeSidebar() : openSidebar();
-});
-
-sidebarClose.addEventListener('click', closeSidebar);
-
-// Fechar ao clicar em um link do menu (scroll suave já é CSS)
-sidebarLinks.forEach(link => {
-  link.addEventListener('click', closeSidebar);
-});
-
-// Fechar com tecla ESC
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    if (sidebar.classList.contains('is-open'))       closeSidebar();
-    if (profileModal.classList.contains('is-open'))  closeProfileModal();
-    if (mapModal.classList.contains('is-open'))      closeMapModal();
+// ==========================================
+// Funções Utilitárias Globais
+// ==========================================
+const Util = {
+  openOverlay: () => {
+    DOM.overlay.classList.add('is-active');
+    document.body.style.overflow = 'hidden';
+  },
+  closeOverlay: () => {
+    DOM.overlay.classList.remove('is-active');
+    document.body.style.overflow = '';
+  },
+  trapFocus: (container) => {
+    const focusable = container.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])');
+    if (focusable.length) focusable[0].focus();
   }
-});
+};
 
+// ==========================================
+// Módulo: Menu Lateral (Sidebar)
+// ==========================================
+const SidebarManager = {
+  open: () => {
+    DOM.sidebar.el.classList.add('is-open');
+    DOM.sidebar.btn.classList.add('is-active');
+    DOM.sidebar.btn.setAttribute('aria-expanded', 'true');
+    Util.openOverlay();
+    Util.trapFocus(DOM.sidebar.el);
+  },
+  close: () => {
+    DOM.sidebar.el.classList.remove('is-open');
+    DOM.sidebar.btn.classList.remove('is-active');
+    DOM.sidebar.btn.setAttribute('aria-expanded', 'false');
+    Util.closeOverlay();
+    DOM.sidebar.btn.focus();
+  },
+  toggle: () => {
+    DOM.sidebar.el.classList.contains('is-open') ? SidebarManager.close() : SidebarManager.open();
+  },
+  init: () => {
+    DOM.sidebar.btn.addEventListener('click', SidebarManager.toggle);
+    DOM.sidebar.close.addEventListener('click', SidebarManager.close);
+    DOM.sidebar.links.forEach(link => link.addEventListener('click', SidebarManager.close));
+  }
+};
 
-/* ─────────────────────────────────────────────
-   4. MÓDULO: MODAL DE PERFIL
-───────────────────────────────────────────── */
+// ==========================================
+// Módulo: Modal de Perfil
+// ==========================================
+const ModalManager = {
+  openProfile: () => {
+    DOM.modals.profileModal.classList.add('is-open');
+    Util.openOverlay();
+    Util.trapFocus(DOM.modals.profileModal);
+  },
+  closeProfile: () => {
+    DOM.modals.profileModal.classList.remove('is-open');
+    Util.closeOverlay();
+    DOM.modals.profileBtn.focus();
+  },
+  init: () => {
+    DOM.modals.profileBtn.addEventListener('click', ModalManager.openProfile);
+    DOM.modals.profileClose.addEventListener('click', ModalManager.closeProfile);
+  }
+};
 
-/** Abre o modal de perfil */
-function openProfileModal() {
-  profileModal.classList.add('is-open');
-  openOverlay();
-  trapFocus(profileModal);
-}
+// ==========================================
+// Módulo: Tabs (Sistema de Abas de Conteúdo)
+// ==========================================
+const TabsManager = {
+  activate: (activeBtn) => {
+    const targetId = `tab-${activeBtn.dataset.tab}`;
 
-/** Fecha o modal de perfil */
-function closeProfileModal() {
-  profileModal.classList.remove('is-open');
-  closeOverlay();
-  profileBtn.focus();
-}
+    // Atualiza classes dos botões
+    DOM.tabs.btns.forEach(btn => {
+      const isActive = btn === activeBtn;
+      btn.classList.toggle('tab-btn--active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
+    });
 
-profileBtn.addEventListener('click', openProfileModal);
-profileModalClose.addEventListener('click', closeProfileModal);
+    // Atualiza a visibilidade dos painéis de conteúdo
+    DOM.tabs.panels.forEach(panel => {
+      const isTarget = panel.id === targetId;
+      panel.classList.toggle('tab-panel--active', isTarget);
 
-
-/* ─────────────────────────────────────────────
-   5. MÓDULO: MODAL DO MAPA
-───────────────────────────────────────────── */
-
-/** Abre o modal do mapa */
-function openMapModal() {
-  mapModal.classList.add('is-open');
-  openOverlay();
-  trapFocus(mapModal);
-}
-
-/** Fecha o modal do mapa */
-function closeMapModal() {
-  mapModal.classList.remove('is-open');
-  closeOverlay();
-  mapBtn.focus();
-}
-
-mapBtn.addEventListener('click', openMapModal);
-mapModalClose.addEventListener('click', closeMapModal);
-
-
-/* ─────────────────────────────────────────────
-   OVERLAY — clique fecha tudo que estiver aberto
-───────────────────────────────────────────── */
-overlay.addEventListener('click', () => {
-  if (sidebar.classList.contains('is-open'))       closeSidebar();
-  if (profileModal.classList.contains('is-open'))  closeProfileModal();
-  if (mapModal.classList.contains('is-open'))      closeMapModal();
-});
-
-
-/* ─────────────────────────────────────────────
-   6. MÓDULO: TABS (ABAS)
-───────────────────────────────────────────── */
-
-/**
- * Ativa a aba clicada e exibe o painel correspondente.
- * Adiciona animação de entrada via toggle de classe.
- * @param {HTMLButtonElement} activeBtn - botão da aba clicada
- */
-function activateTab(activeBtn) {
-  const targetTab = activeBtn.dataset.tab;
-
-  // Atualiza botões
-  tabBtns.forEach(btn => {
-    const isActive = btn === activeBtn;
-    btn.classList.toggle('tab-btn--active', isActive);
-    btn.setAttribute('aria-selected', String(isActive));
-  });
-
-  // Atualiza painéis
-  tabPanels.forEach(panel => {
-    const isTarget = panel.id === `tab-${targetTab}`;
-    panel.classList.toggle('tab-panel--active', isTarget);
-
-    // Re-dispara as animações dos cards do painel ativo
-    if (isTarget) {
-      const cards = panel.querySelectorAll('.animate-on-scroll');
-      cards.forEach(card => {
-        // Remove e adiciona a classe para reiniciar a animação
-        card.classList.remove('is-visible');
-        // Pequeno delay para garantir o reflow do browser
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => card.classList.add('is-visible'));
+      // Reinicia as animações caso existam dentro do painel
+      if (isTarget) {
+        const cards = panel.querySelectorAll('.animate-on-scroll');
+        cards.forEach(card => {
+          card.classList.remove('is-visible');
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => card.classList.add('is-visible'));
+          });
         });
-      });
-    }
-  });
-}
-
-tabBtns.forEach(btn => {
-  btn.addEventListener('click', () => activateTab(btn));
-});
-
-// Navegar pelas abas com setas do teclado (acessibilidade)
-tabBtns.forEach((btn, index) => {
-  btn.addEventListener('keydown', e => {
-    let newIndex = null;
-    if (e.key === 'ArrowRight') newIndex = (index + 1) % tabBtns.length;
-    if (e.key === 'ArrowLeft')  newIndex = (index - 1 + tabBtns.length) % tabBtns.length;
-    if (newIndex !== null) {
-      tabBtns[newIndex].focus();
-      activateTab(tabBtns[newIndex]);
-    }
-  });
-});
-
-
-/* ─────────────────────────────────────────────
-   7. MÓDULO: SCROLL
-───────────────────────────────────────────── */
-
-/**
- * IntersectionObserver para animações de entrada ao rolar.
- * Cada elemento com .animate-on-scroll recebe .is-visible
- * quando entra 15% da viewport.
- */
-const scrollObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        // Para de observar após a primeira vez (animação única)
-        scrollObserver.unobserve(entry.target);
       }
     });
   },
-  { threshold: 0.15 }
-);
-
-animEls.forEach(el => scrollObserver.observe(el));
-
-/**
- * Adiciona classe "scrolled" ao header quando rola > 20px,
- * intensificando a sombra da barra fixa.
- */
-window.addEventListener('scroll', () => {
-  header.classList.toggle('scrolled', window.scrollY > 20);
-}, { passive: true });
-
-
-/* ─────────────────────────────────────────────
-   8. INICIALIZAÇÃO
-───────────────────────────────────────────── */
-
-/**
- * Ao carregar o DOM, marca imediatamente como visíveis
- * os elementos que já estão dentro da viewport
- * (ex: hero e primeiros cards).
- */
-document.addEventListener('DOMContentLoaded', () => {
-  // Força a verificação inicial do observer
-  animEls.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.9) {
-      el.classList.add('is-visible');
-    }
-  });
-
-  // Marca a primeira aba como ativa ao iniciar
-  const firstPanel = document.getElementById('tab-top');
-  if (firstPanel) {
-    const initialCards = firstPanel.querySelectorAll('.animate-on-scroll');
-    initialCards.forEach(card => {
-      setTimeout(() => card.classList.add('is-visible'), 200);
+  init: () => {
+    DOM.tabs.btns.forEach(btn => {
+      btn.addEventListener('click', () => TabsManager.activate(btn));
     });
   }
+};
 
-  console.log('%c♿ AcessiMap carregado com sucesso!', 'color: #2db560; font-size: 14px; font-weight: bold;');
-});
+// ==========================================
+// Módulo: Interações de Scroll & Observer
+// ==========================================
+const ScrollManager = {
+  observer: new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target); // Anima apenas uma vez
+      }
+    });
+  }, { threshold: 0.1 }),
+
+  init: () => {
+    // Aplica o observer em todos os elementos com a classe mapeada
+    DOM.animations.forEach(el => ScrollManager.observer.observe(el));
+
+    // Efeito sutil no header ao rolar a página
+    window.addEventListener('scroll', () => {
+      DOM.header.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+  }
+};
+
+// ==========================================
+// Inicialização Geral da Interface
+// ==========================================
+const App = {
+  init: () => {
+    SidebarManager.init();
+    ModalManager.init();
+    TabsManager.init();
+    ScrollManager.init();
+
+    // Fecha modais e sidebar clicando no overlay negro ou usando a tecla ESC
+    DOM.overlay.addEventListener('click', () => {
+      if (DOM.sidebar.el.classList.contains('is-open')) SidebarManager.close();
+      if (DOM.modals.profileModal.classList.contains('is-open')) ModalManager.closeProfile();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (DOM.sidebar.el.classList.contains('is-open')) SidebarManager.close();
+        if (DOM.modals.profileModal.classList.contains('is-open')) ModalManager.closeProfile();
+      }
+    });
+
+    // Exibe elementos visíveis no carregamento sem precisar rolar
+    setTimeout(() => {
+      DOM.animations.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+          el.classList.add('is-visible');
+        }
+      });
+    }, 100);
+  }
+};
+
+// Inicia os scripts quando o DOM carregar
+document.addEventListener('DOMContentLoaded', App.init);

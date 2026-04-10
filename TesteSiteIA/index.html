@@ -5,603 +5,263 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AcessiMap — Encontre Lugares Acessíveis</title>
 
-  <!-- Google Fonts: display font + body font -->
+  <!-- Google Fonts for modern typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
 
+  <!-- Arquivo de estilos principal -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- =============================================
-       OVERLAY — fundo escurecido para menu/modais
-       ============================================= -->
-  <div class="overlay" id="overlay" aria-hidden="true"></div>
+  <!-- Overlay for modals and sidebar -->
+  <div id="overlay" class="overlay" aria-hidden="true"></div>
 
-  <!-- =============================================
-       SIDEBAR — menu lateral deslizante
-       ============================================= -->
-  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menu principal">
+  <!-- Sidebar / Mobile Navigation -->
+  <aside id="sidebar" class="sidebar" role="navigation" aria-label="Menu principal">
     <div class="sidebar__header">
-      <span class="sidebar__logo">AcessiMap</span>
-      <button class="sidebar__close" id="sidebarClose" aria-label="Fechar menu">&#x2715;</button>
+      <span class="sidebar__logo"><span class="icon">♿</span> AcessiMap</span>
+      <button id="sidebarClose" class="sidebar__close" aria-label="Fechar menu">&times;</button>
     </div>
     <nav class="sidebar__nav">
-      <a href="#hero"     class="sidebar__link" data-icon="🏠">Início</a>
-      <a href="#tabs"     class="sidebar__link" data-icon="📍">Explorar</a>
-      <a href="#sobre"    class="sidebar__link" data-icon="💡">Sobre nós</a>
-      <a href="#contato"  class="sidebar__link" data-icon="✉️">Contato</a>
+      <!-- Each link uses a data-icon attribute to prepend an icon via CSS -->
+      <a href="Pagina_Pesquisa.html" class="sidebar__link" data-icon="⭐">Avaliar</a>
+      <a href="#places" class="sidebar__link" data-icon="🔍">Pesquisa</a>
+      <a href="#about" class="sidebar__link" data-icon="💡">Sobre</a>
+      <a href="#account" class="sidebar__link" data-icon="⚙️">Configurações</a>
     </nav>
-    <div class="sidebar__footer">
-      <span>Versão 1.0 &mdash; AcessiMap</span>
-    </div>
+    <div class="sidebar__footer">Versão 2.0 — AcessiMap</div>
   </aside>
 
-  <!-- =============================================
-       HEADER — barra superior fixa
-       ============================================= -->
-  <header class="header" id="header">
-    <!-- Botão hambúrguer (esquerda) -->
-    <button class="header__hamburger" id="hamburgerBtn" aria-label="Abrir menu" aria-expanded="false">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-
-    <!-- Nome do site (centro) -->
+  <!-- Main Header -->
+  <header id="header" class="header">
+    <div class="header__left">
+      <button id="hamburgerBtn" class="header__hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
     <a href="#" class="header__brand">
-      <span class="header__brand-icon">♿</span>
-      AcessiMap
+      <span class="header__brand-icon">♿</span> AcessiMap
     </a>
-
-    <!-- Botão de perfil (direita) -->
-    <button class="header__profile" id="profileBtn" aria-label="Abrir perfil" aria-haspopup="dialog">
-      <span class="header__profile-avatar">JS</span>
-    </button>
+    <div class="header__right">
+      <button id="profileBtn" class="header__profile" aria-label="Abrir perfil" aria-haspopup="dialog">
+        <!-- Avatar generated via ui-avatars. The color uses the primary palette. -->
+        <img src="https://ui-avatars.com/api/?name=Joao+Silva&background=34d399&color=ffffff&rounded=true&bold=true" alt="Avatar" class="header__profile-img" />
+      </button>
+    </div>
   </header>
 
-  <!-- =============================================
-       MODAL DE PERFIL
-       ============================================= -->
-  <div class="modal modal--profile" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
-    <div class="modal__box modal__box--profile">
-      <button class="modal__close" id="profileModalClose" aria-label="Fechar perfil">&#x2715;</button>
-      <div class="profile__avatar-lg">JS</div>
-      <h2 class="profile__name" id="profileModalTitle">João Silva</h2>
-      <p class="profile__email">joao.silva@email.com</p>
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="modal__box modal__box--sm">
+      <button id="profileModalClose" class="modal__close" aria-label="Fechar perfil">&times;</button>
+      <div class="profile__header">
+        <img src="https://ui-avatars.com/api/?name=Joao+Silva&background=34d399&color=ffffff&rounded=true&bold=true&size=88" alt="Avatar Grande" class="profile__avatar-lg" />
+        <h2 id="profileModalTitle" class="profile__name">João Silva</h2>
+        <p class="profile__email">joao.silva@email.com</p>
+      </div>
       <div class="profile__stats">
         <div class="profile__stat">
-          <strong>12</strong><span>Avaliações</span>
+          <strong>12</strong>
+          <span>Avaliações</span>
         </div>
         <div class="profile__stat">
-          <strong>5</strong><span>Favoritos</span>
-        </div>
-        <div class="profile__stat">
-          <strong>3</strong><span>Visitas</span>
+          <strong>5</strong>
+          <span>Favoritos</span>
         </div>
       </div>
-      <button class="btn btn--outline profile__btn">Editar perfil</button>
-      <button class="btn btn--ghost profile__btn">Sair</button>
-    </div>
-  </div>
-
-  <!-- =============================================
-       MODAL DO MAPA
-       ============================================= -->
-  <div class="modal modal--map" id="mapModal" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
-    <div class="modal__box modal__box--map">
-      <button class="modal__close" id="mapModalClose" aria-label="Fechar mapa">&#x2715;</button>
-      <h2 class="modal__title" id="mapModalTitle">Explorar no Mapa</h2>
-      <p class="modal__subtitle">Encontre locais acessíveis perto de você</p>
-
-      <!-- Placeholder visual de mapa -->
-      <div class="map__placeholder">
-        <div class="map__grid"></div>
-        <div class="map__pin map__pin--1" title="Restaurante Acessível">📍</div>
-        <div class="map__pin map__pin--2" title="Academia">📍</div>
-        <div class="map__pin map__pin--3" title="Loja">📍</div>
-        <div class="map__pin map__pin--4" title="Ponto turístico">📍</div>
-        <div class="map__center-dot"></div>
-        <span class="map__label">Mapa interativo será integrado aqui</span>
-      </div>
-
-      <div class="map__actions">
-        <button class="btn btn--primary">Usar minha localização</button>
-        <button class="btn btn--outline">Buscar endereço</button>
+      <div class="profile__actions">
+        <button class="btn btn--outline btn--full">Editar perfil</button>
+        <button class="btn btn--ghost btn--full">Sair</button>
       </div>
     </div>
   </div>
 
-  <!-- =============================================
-       MAIN — conteúdo principal
-       ============================================= -->
   <main>
-
-    <!-- HERO —————————————————————————————————— -->
-    <section class="hero" id="hero">
-      <!-- Imagem / gradiente de fundo -->
-      <div class="hero__bg" aria-hidden="true">
-        <div class="hero__bg-pattern"></div>
-      </div>
-
-      <!-- Conteúdo sobre a imagem -->
-      <div class="hero__content animate-on-scroll">
-        <span class="hero__badge">♿ Acessibilidade para todos</span>
-        <h1 class="hero__title">
-          Descubra lugares<br />
-          <em>verdadeiramente</em> acessíveis
-        </h1>
-        <p class="hero__desc">
-          Encontre e avalie restaurantes, academias, lojas e pontos turísticos
-          com infraestrutura para pessoas com deficiência ou mobilidade reduzida.
-        </p>
-        <!-- CTA que abre o modal do mapa -->
-        <button class="btn btn--cta" id="mapBtn">
-          <span class="btn__icon">🗺️</span>
-          Pesquisar no mapa
-        </button>
-      </div>
-
-      <!-- Cards flutuantes decorativos -->
-      <div class="hero__floating-cards" aria-hidden="true">
-        <div class="floating-card floating-card--1">
-          <span>🍽️</span><strong>Restaurante Acessível</strong><span class="fc-stars">★★★★★</span>
-        </div>
-        <div class="floating-card floating-card--2">
-          <span>🏋️</span><strong>Academia Inclusiva</strong><span class="fc-stars">★★★★☆</span>
-        </div>
-        <div class="floating-card floating-card--3">
-          <span>🏛️</span><strong>Museu Histórico</strong><span class="fc-stars">★★★★★</span>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__container">
+        <div class="hero__content animate-on-scroll">
+          <span class="hero__badge">Conectando espaços e pessoas</span>
+          <h1 class="hero__title">
+            Descubra lugares<br />
+            <span class="text-highlight">verdadeiramente</span> acessíveis
+          </h1>
+          <p class="hero__desc">Explore restaurantes, academias e pontos turísticos avaliados pela comunidade quanto à sua infraestrutura de acessibilidade.</p>
+          <div class="hero__actions">
+            <a href="#places" class="btn btn--primary btn--lg">Explorar Locais</a>
+            <a href="Pagina_Pesquisa.html" class="btn btn--primary-light btn--lg">Avaliar um Local</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- TABS / CARDS ——————————————————————————— -->
-    <section class="tabs-section" id="tabs">
+    <!-- Places Section with Tabs and Cards -->
+    <section id="places" class="places-section">
       <div class="container">
         <div class="section-header animate-on-scroll">
-          <h2 class="section-title">Melhores avaliados</h2>
-          <p class="section-desc">Locais reconhecidos pela comunidade por excelente acessibilidade</p>
+          <h2 class="section-title">Encontre seu próximo destino</h2>
+          <p class="section-desc">Locais categorizados e avaliados com base na experiência real de acessibilidade.</p>
         </div>
 
-        <!-- Controles das abas -->
+        <!-- Tab buttons -->
         <div class="tabs__controls" role="tablist" aria-label="Categorias de locais">
-          <button class="tab-btn tab-btn--active" role="tab" aria-selected="true"  data-tab="top"          >⭐ Destaques</button>
-          <button class="tab-btn"                 role="tab" aria-selected="false" data-tab="restaurantes" >🍽️ Restaurantes</button>
-          <button class="tab-btn"                 role="tab" aria-selected="false" data-tab="academias"    >🏋️ Academias</button>
-          <button class="tab-btn"                 role="tab" aria-selected="false" data-tab="lojas"        >🛍️ Lojas</button>
-          <button class="tab-btn"                 role="tab" aria-selected="false" data-tab="turismo"      >🏛️ Turismo</button>
+          <button class="tab-btn tab-btn--active" role="tab" aria-selected="true" data-tab="destaques">⭐ Destaques</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="restaurantes">🍽️ Restaurantes</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="turismo">🏛️ Turismo</button>
         </div>
 
-        <!-- Painéis das abas -->
+        <!-- Tab panels -->
         <div class="tabs__panels">
-
-          <!-- ABA: Destaques -->
-          <div class="tab-panel tab-panel--active" id="tab-top" role="tabpanel">
+          <!-- Destaques panel -->
+          <div id="tab-destaques" class="tab-panel tab-panel--active" role="tabpanel">
             <div class="cards-grid">
               <!-- Card 1 -->
-              <article class="card animate-on-scroll" style="--delay:.05s">
-                <div class="card__img-wrap">
-                  <div class="card__img card__img--1"></div>
-                  <span class="card__badge">Destaque</span>
+              <article class="card animate-on-scroll" data-id="1" style="--delay:.05s">
+                <div class="card-media">
+                  <!-- Placeholder gradient can be replaced by a real image in the future -->
+                  <div class="card-image bg-gradient-1"></div>
+                  <span class="card-badge">Destaque</span>
                 </div>
-                <div class="card__body">
-                  <h3 class="card__name">Restaurante Sabor & Vida</h3>
-                  <p class="card__category">🍽️ Restaurante</p>
-                  <p class="card__desc">Ambiente totalmente adaptado com rampas, banheiros acessíveis e cardápio em braile.</p>
-                  <div class="card__footer">
-                    <div class="card__rating">
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Restaurante Sabor &amp; Vida</h3>
+                    <span class="card-category">🍽️ Restaurante</span>
+                  </header>
+                  <p class="card-description">Ambiente totalmente adaptado com rampas, banheiros acessíveis e cardápio em braile.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="5 estrelas">
                       <span class="stars">★★★★★</span>
-                      <span class="rating-num">5.0</span>
+                      <span class="rating-score">5.0</span>
                     </div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
                 </div>
               </article>
+
               <!-- Card 2 -->
-              <article class="card animate-on-scroll" style="--delay:.1s">
-                <div class="card__img-wrap">
-                  <div class="card__img card__img--2"></div>
-                  <span class="card__badge card__badge--green">Novo</span>
+              <article class="card animate-on-scroll" data-id="2" style="--delay:.1s">
+                <div class="card-media">
+                  <div class="card-image bg-gradient-2"></div>
+                  <span class="card-badge card-badge--new">Novo</span>
                 </div>
-                <div class="card__body">
-                  <h3 class="card__name">Academia MoveBem</h3>
-                  <p class="card__category">🏋️ Academia</p>
-                  <p class="card__desc">Equipamentos adaptados, instrutores especializados e estacionamento para PCD.</p>
-                  <div class="card__footer">
-                    <div class="card__rating">
-                      <span class="stars">★★★★½</span>
-                      <span class="rating-num">4.8</span>
-                    </div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <!-- Card 3 -->
-              <article class="card animate-on-scroll" style="--delay:.15s">
-                <div class="card__img-wrap">
-                  <div class="card__img card__img--3"></div>
-                </div>
-                <div class="card__body">
-                  <h3 class="card__name">Museu da Cidade</h3>
-                  <p class="card__category">🏛️ Turismo</p>
-                  <p class="card__desc">Audioguia, piso tátil, elevadores e visitas guiadas para pessoas com deficiência visual.</p>
-                  <div class="card__footer">
-                    <div class="card__rating">
-                      <span class="stars">★★★★★</span>
-                      <span class="rating-num">4.9</span>
-                    </div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <!-- Card 4 -->
-              <article class="card animate-on-scroll" style="--delay:.2s">
-                <div class="card__img-wrap">
-                  <div class="card__img card__img--4"></div>
-                </div>
-                <div class="card__body">
-                  <h3 class="card__name">Farmácia CuideBem</h3>
-                  <p class="card__category">🛍️ Loja</p>
-                  <p class="card__desc">Balcão de atendimento rebaixado, rampa de acesso e atendimento em LIBRAS.</p>
-                  <div class="card__footer">
-                    <div class="card__rating">
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Academia MoveBem</h3>
+                    <span class="card-category">🏋️ Academia</span>
+                  </header>
+                    <p class="card-description">Equipamentos adaptados, instrutores especializados e amplo estacionamento para PCD.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="4.8 estrelas">
                       <span class="stars">★★★★☆</span>
-                      <span class="rating-num">4.7</span>
+                      <span class="rating-score">4.8</span>
                     </div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
+                </div>
+              </article>
+
+              <!-- Card 3 -->
+              <article class="card animate-on-scroll" data-id="3" style="--delay:.15s">
+                <div class="card-media">
+                  <div class="card-image bg-gradient-3"></div>
+                </div>
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Museu da Cidade</h3>
+                    <span class="card-category">🏛️ Cultura</span>
+                  </header>
+                  <p class="card-description">Audioguia interativo, piso tátil, elevadores e visitas guiadas adaptadas.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="4.9 estrelas">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-score">4.9</span>
+                    </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
+                </div>
+              </article>
+
+              <!-- Card 4 -->
+              <article class="card animate-on-scroll" data-id="4" style="--delay:.2s">
+                <div class="card-media">
+                  <div class="card-image bg-gradient-4"></div>
+                </div>
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Parque Central</h3>
+                    <span class="card-category">🌳 Lazer</span>
+                  </header>
+                  <p class="card-description">Trilhas 100% pavimentadas, áreas de descanso frequentes e banheiros família.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="4.7 estrelas">
+                      <span class="stars">★★★★☆</span>
+                      <span class="rating-score">4.7</span>
+                    </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
                 </div>
               </article>
             </div>
           </div>
 
-          <!-- ABA: Restaurantes -->
-          <div class="tab-panel" id="tab-restaurantes" role="tabpanel">
-            <div class="cards-grid">
-              <article class="card animate-on-scroll" style="--delay:.05s">
-                <div class="card__img-wrap"><div class="card__img card__img--r1"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Cantina da Praça</h3>
-                  <p class="card__category">🍝 Italiano</p>
-                  <p class="card__desc">Mesa reservada para cadeirantes, piso nivelado e estacionamento preferencial.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">4.9</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.1s">
-                <div class="card__img-wrap"><div class="card__img card__img--r2"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Brasa & Sabor</h3>
-                  <p class="card__category">🥩 Churrascaria</p>
-                  <p class="card__desc">Rodízio com circulação ampla para cadeiras de rodas e banheiro adaptado.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.6</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.15s">
-                <div class="card__img-wrap"><div class="card__img card__img--r3"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Café Inclusão</h3>
-                  <p class="card__category">☕ Café</p>
-                  <p class="card__desc">Funcionários treinados em LIBRAS e cardápio em formato acessível digital.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">5.0</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.2s">
-                <div class="card__img-wrap"><div class="card__img card__img--r4"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Sushi Zen</h3>
-                  <p class="card__category">🍣 Japonês</p>
-                  <p class="card__desc">Ambiente amplo, entrada sem degraus e banheiro com barras de apoio.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <!-- ABA: Academias -->
-          <div class="tab-panel" id="tab-academias" role="tabpanel">
-            <div class="cards-grid">
-              <article class="card animate-on-scroll" style="--delay:.05s">
-                <div class="card__img-wrap"><div class="card__img card__img--a1"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">FitAcess</h3>
-                  <p class="card__category">💪 Musculação</p>
-                  <p class="card__desc">Aparelhos adaptados para cadeirantes e portadores de deficiência motora.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">4.9</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.1s">
-                <div class="card__img-wrap"><div class="card__img card__img--a2"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Natação para Todos</h3>
-                  <p class="card__category">🏊 Natação</p>
-                  <p class="card__desc">Elevador de piscina, instrutores capacitados e vestiários adaptados.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">5.0</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.15s">
-                <div class="card__img-wrap"><div class="card__img card__img--a3"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Yoga Livre</h3>
-                  <p class="card__category">🧘 Yoga</p>
-                  <p class="card__desc">Aulas inclusivas com adaptações para diferentes tipos de deficiência.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.7</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.2s">
-                <div class="card__img-wrap"><div class="card__img card__img--a4"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">CrossFit Acessível</h3>
-                  <p class="card__category">🏋️ Crossfit</p>
-                  <p class="card__desc">Box adaptado com piso antiderrapante e equipamentos com altura regulável.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.6</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <!-- ABA: Lojas -->
-          <div class="tab-panel" id="tab-lojas" role="tabpanel">
-            <div class="cards-grid">
-              <article class="card animate-on-scroll" style="--delay:.05s">
-                <div class="card__img-wrap"><div class="card__img card__img--l1"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Moda Inclusiva</h3>
-                  <p class="card__category">👗 Vestuário</p>
-                  <p class="card__desc">Provadores espaçosos, provador adaptado e atendimento personalizado.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">4.8</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.1s">
-                <div class="card__img-wrap"><div class="card__img card__img--l2"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Supermercado BemViver</h3>
-                  <p class="card__category">🛒 Supermercado</p>
-                  <p class="card__desc">Corredores amplos, caixas preferencias e carrinhos adaptados.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.5</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.15s">
-                <div class="card__img-wrap"><div class="card__img card__img--l3"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Livraria Universo</h3>
-                  <p class="card__category">📚 Livraria</p>
-                  <p class="card__desc">Audiolivros, livros em braille e espaço de leitura adaptado.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">5.0</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.2s">
-                <div class="card__img-wrap"><div class="card__img card__img--l4"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Farmácia Saúde Total</h3>
-                  <p class="card__category">💊 Farmácia</p>
-                  <p class="card__desc">Balcão rebaixado, rampas e atendimento especializado para idosos e PCD.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.7</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-
-          <!-- ABA: Turismo -->
-          <div class="tab-panel" id="tab-turismo" role="tabpanel">
-            <div class="cards-grid">
-              <article class="card animate-on-scroll" style="--delay:.05s">
-                <div class="card__img-wrap"><div class="card__img card__img--t1"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Parque Municipal</h3>
-                  <p class="card__category">🌳 Parque</p>
-                  <p class="card__desc">Trilhas pavimentadas, banheiros adaptados e áreas de descanso acessíveis.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">4.9</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.1s">
-                <div class="card__img-wrap"><div class="card__img card__img--t2"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Teatro Municipal</h3>
-                  <p class="card__category">🎭 Teatro</p>
-                  <p class="card__desc">Espetáculos com audiodescrição, intérprete de LIBRAS e lugares reservados.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★★</span><span class="rating-num">5.0</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.15s">
-                <div class="card__img-wrap"><div class="card__img card__img--t3"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Centro Cultural</h3>
-                  <p class="card__category">🎨 Cultura</p>
-                  <p class="card__desc">Exposições táteis, piso guia e elevadores para todos os andares.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.6</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-              <article class="card animate-on-scroll" style="--delay:.2s">
-                <div class="card__img-wrap"><div class="card__img card__img--t4"></div></div>
-                <div class="card__body">
-                  <h3 class="card__name">Zoo Botânico</h3>
-                  <p class="card__category">🦁 Zoológico</p>
-                  <p class="card__desc">Percurso acessível completo com sinalização tátil e visual em todo o parque.</p>
-                  <div class="card__footer">
-                    <div class="card__rating"><span class="stars">★★★★☆</span><span class="rating-num">4.8</span></div>
-                    <button class="card__btn">Ver mais</button>
-                  </div>
-                </div>
-              </article>
-            </div>
-          </div>
-
-        </div><!-- /tabs__panels -->
-      </div><!-- /container -->
+          <!-- Outros painéis -->
+          <div id="tab-restaurantes" class="tab-panel" role="tabpanel"><p class="empty-state">Mais restaurantes em breve...</p></div>
+          <div id="tab-turismo" class="tab-panel" role="tabpanel"><p class="empty-state">Pontos turísticos em breve...</p></div>
+        </div>
+      </div>
     </section>
 
-    <!-- SOBRE NÓS ————————————————————————————— -->
-    <section class="sobre" id="sobre">
-      <div class="container">
-        <div class="sobre__inner">
-          <!-- Coluna de texto -->
-          <div class="sobre__text animate-on-scroll">
-            <span class="sobre__eyebrow">Quem somos</span>
-            <h2 class="sobre__title">Facilitando o acesso<br/>a um mundo mais inclusivo</h2>
-            <p class="sobre__desc">
-              O <strong>AcessiMap</strong> nasceu da necessidade de reunir, em um só lugar,
-              informações confiáveis sobre a acessibilidade de estabelecimentos comerciais,
-              espaços de lazer e pontos turísticos.
-            </p>
-            <p class="sobre__desc">
-              Nossa missão é empoderar pessoas com deficiência e mobilidade reduzida,
-              fornecendo avaliações reais feitas pela própria comunidade — porque ninguém
-              entende melhor as necessidades de acessibilidade do que quem as vive.
-            </p>
-            <div class="sobre__pills">
-              <span class="pill">♿ Comunidade ativa</span>
-              <span class="pill">📍 Locais verificados</span>
-              <span class="pill">⭐ Avaliações reais</span>
-              <span class="pill">🤝 Inclusão</span>
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container about__grid">
+        <div class="about__content animate-on-scroll">
+          <span class="tag">Sobre Nós</span>
+          <h2 class="about__title">Promovendo autonomia e inclusão</h2>
+          <p class="about__desc">O AcessiMap é mais do que um guia, é uma plataforma colaborativa focada em empoderar pessoas através da informação clara e confiável sobre acessibilidade em espaços públicos e privados.</p>
+          <ul class="about__list">
+            <li><span class="icon">✅</span> Informações verificadas pela comunidade</li>
+            <li><span class="icon">✅</span> Foco total em acessibilidade motora</li>
+            <li><span class="icon">✅</span> Design inclusivo pensado para todos</li>
+          </ul>
+        </div>
+        <div class="about__visual animate-on-scroll" style="--delay:.15s">
+          <div class="stat-box">
+            <span class="stat-box__icon">📍</span>
+            <div>
+              <strong class="stat-box__number">1.2k+</strong>
+              <span class="stat-box__label">Locais Mapeados</span>
             </div>
           </div>
-          <!-- Coluna de stats/ícones -->
-          <div class="sobre__stats animate-on-scroll" style="--delay:.15s">
-            <div class="stat-card">
-              <span class="stat-card__icon">📍</span>
-              <strong class="stat-card__num">1.200+</strong>
-              <span class="stat-card__label">Locais cadastrados</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card__icon">⭐</span>
-              <strong class="stat-card__num">8.500+</strong>
-              <span class="stat-card__label">Avaliações realizadas</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card__icon">👥</span>
-              <strong class="stat-card__num">3.200+</strong>
-              <span class="stat-card__label">Usuários cadastrados</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-card__icon">🏙️</span>
-              <strong class="stat-card__num">45+</strong>
-              <span class="stat-card__label">Cidades cobertas</span>
+          <div class="stat-box">
+            <span class="stat-box__icon">⭐</span>
+            <div>
+              <strong class="stat-box__number">8.5k+</strong>
+              <span class="stat-box__label">Avaliações</span>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- CALL TO ACTION —————————————————————— -->
-    <section class="cta-banner animate-on-scroll">
-      <div class="container">
-        <div class="cta-banner__inner">
-          <h2 class="cta-banner__title">Conhece um lugar acessível?</h2>
-          <p class="cta-banner__desc">Cadastre e ajude milhares de pessoas a encontrar espaços inclusivos.</p>
-          <button class="btn btn--cta-white">Cadastrar local &#x2192;</button>
-        </div>
-      </div>
-    </section>
-
   </main>
 
-  <!-- =============================================
-       FOOTER
-       ============================================= -->
-  <footer class="footer" id="contato">
-    <div class="container">
-      <div class="footer__grid">
-        <!-- Col 1: Brand -->
-        <div class="footer__col footer__col--brand">
-          <div class="footer__logo">
-            <span>♿</span> AcessiMap
-          </div>
-          <p class="footer__tagline">
-            Mapeando a acessibilidade para construir um mundo mais inclusivo.
-          </p>
-          <div class="footer__social">
-            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
-            <a href="#" class="social-btn" aria-label="Facebook">💬</a>
-            <a href="#" class="social-btn" aria-label="Twitter">🐦</a>
-            <a href="#" class="social-btn" aria-label="LinkedIn">💼</a>
-          </div>
-        </div>
-
-        <!-- Col 2: Links -->
-        <div class="footer__col">
-          <h4 class="footer__col-title">Navegação</h4>
-          <ul class="footer__links">
-            <li><a href="#hero">Início</a></li>
-            <li><a href="#tabs">Explorar locais</a></li>
-            <li><a href="#sobre">Sobre nós</a></li>
-            <li><a href="#">Cadastrar local</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 3: Info -->
-        <div class="footer__col">
-          <h4 class="footer__col-title">Informações</h4>
-          <ul class="footer__links">
-            <li><a href="#">Política de privacidade</a></li>
-            <li><a href="#">Termos de uso</a></li>
-            <li><a href="#">Acessibilidade do site</a></li>
-            <li><a href="#">FAQ</a></li>
-          </ul>
-        </div>
-
-        <!-- Col 4: Contato -->
-        <div class="footer__col">
-          <h4 class="footer__col-title">Contato</h4>
-          <ul class="footer__contact">
-            <li><span>✉️</span> contato@acessimap.com.br</li>
-            <li><span>📞</span> (49) 99999-9999</li>
-            <li><span>📍</span> Chapecó, SC — Brasil</li>
-          </ul>
-        </div>
+  <footer class="footer">
+    <div class="container footer__container">
+      <div class="footer__brand">
+        <div class="footer__logo"><span class="icon">♿</span> AcessiMap</div>
+        <p>Criando um mundo sem barreiras.</p>
       </div>
-
-      <!-- Rodapé inferior -->
-      <div class="footer__bottom">
-        <p>Feito com ♥ pela equipe AcessiMap &mdash; Todos os direitos reservados &copy; 2025</p>
-        <p class="footer__tech">Desenvolvido com HTML, CSS e JavaScript puro</p>
+      <div class="footer__links">
+        <a href="#hero">Início</a>
+        <a href="#places">Explorar</a>
+        <a href="Pagina_Pesquisa.html">Avaliar Local</a>
+        <a href="#about">Sobre Nós</a>
       </div>
+      <div class="footer__copy">&copy; 2026 AcessiMap. Todos os direitos reservados.</div>
     </div>
   </footer>
 
