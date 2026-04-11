@@ -42,50 +42,44 @@
 
         <button
           class="menu-toggle"
+          id="menuToggle"
           type="button"
           aria-label="Abrir menu"
+          aria-expanded="false"
+          aria-controls="mobileMenu"
         >
           <span></span>
           <span></span>
           <span></span>
         </button>
       </div>
+
+      <div class="mobile-menu" id="mobileMenu" hidden>
+        <a href="index.html">Início</a>
+        <a href="#">Pesquisar</a>
+        <a href="#">Avaliações</a>
+        <a href="#">Contato</a>
+      </div>
     </header>
 
     <main class="search-page">
       <section class="search-layout">
-        <aside class="search-sidebar" aria-label="Painel de pesquisa">
-          <div class="search-hero">
-            <span class="mini-label">Pesquisa</span>
-            <h1>Encontre locais acessíveis</h1>
+        <aside class="search-sidebar" id="searchSidebar" aria-label="Painel de pesquisa">
+          <div class="sidebar-head">
+            <span class="mini-label">Pesquisar</span>
+            <h1>Encontre locais</h1>
           </div>
 
           <form class="search-form" aria-label="Campo de pesquisa" onsubmit="return false;">
             <label for="searchInput" class="visually-hidden">Buscar local</label>
-
-            <div class="search-input-wrapper">
-              <svg
-                class="search-icon"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                fill="none"
-              >
-                <path
-                  d="M21 21L16.65 16.65M10.8 18.6A7.8 7.8 0 1 0 10.8 3a7.8 7.8 0 0 0 0 15.6Z"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-
+            <div class="search-input-row">
               <input
                 type="search"
                 id="searchInput"
-                placeholder="Buscar local, bairro ou categoria"
+                placeholder="Buscar local"
                 autocomplete="off"
               />
-
+              <button type="button" class="search-button">Buscar</button>
             </div>
           </form>
 
@@ -96,7 +90,12 @@
             <button type="button" class="filter-chip">Elevador</button>
           </div>
 
-          <div class="result-list">
+          <div class="sidebar-toolbar">
+            <strong>Destaques</strong>
+            <button type="button" class="text-action" id="toggleCompact">Compactar</button>
+          </div>
+
+          <div class="result-list" id="resultList">
             <article class="result-card is-active" tabindex="0">
               <div class="result-card-top">
                 <div>
@@ -104,6 +103,10 @@
                   <p>Centro</p>
                 </div>
                 <span class="rate-pill">4.8</span>
+              </div>
+              <div class="result-tags">
+                <span>Rampa</span>
+                <span>Banheiro</span>
               </div>
             </article>
 
@@ -115,6 +118,10 @@
                 </div>
                 <span class="rate-pill">4.6</span>
               </div>
+              <div class="result-tags">
+                <span>Entrada ampla</span>
+                <span>Rampa</span>
+              </div>
             </article>
 
             <article class="result-card" tabindex="0">
@@ -124,6 +131,10 @@
                   <p>Paraíso</p>
                 </div>
                 <span class="rate-pill">4.9</span>
+              </div>
+              <div class="result-tags">
+                <span>Elevador</span>
+                <span>Banheiro</span>
               </div>
             </article>
           </div>
@@ -135,12 +146,21 @@
               <span class="mini-label">Mapa</span>
               <h2>Visualização principal</h2>
             </div>
+
+            <div class="map-topbar-actions">
+              <button type="button" class="soft-button" id="toggleSidebarButton">
+                Painel
+              </button>
+              <button type="button" class="soft-button" id="fitMapButton">
+                Centralizar
+              </button>
+            </div>
           </div>
 
           <div class="map-frame">
             <div id="map" class="map-canvas"></div>
 
-            <div class="floating-place-card">
+            <div class="floating-place-card" id="floatingPlaceCard">
               <span class="mini-label">Selecionado</span>
               <strong>Café Jardim</strong>
               <p>Ambiente com boa circulação e acesso facilitado.</p>
@@ -150,5 +170,12 @@
       </section>
     </main>
   </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="script.js"></script>
 </body>
 </html>
