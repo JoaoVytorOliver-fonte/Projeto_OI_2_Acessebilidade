@@ -1,112 +1,270 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style_pagina_principal.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <title>Landing Page</title>
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AcessiMap — Encontre Lugares Acessíveis</title>
 
+  <!-- Google Fonts for modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Arquivo de estilos principal -->
+  <link rel="stylesheet" href="css/styles_pagina_princiapl.css" />
+</head>
 <body>
 
-    <nav>
-        <div class="logo"><p>Johve</p></div>
+  <!-- Overlay for modals and sidebar -->
+  <div id="overlay" class="overlay" aria-hidden="true"></div>
 
-        <div class="menu">
-            <a href="#principal">Principal</a>
-            <a href="#promocao">Promoção</a>
-            <a href="#produtos">Produtos</a>
-            <a href="#contato">Contato</a>
-        </div>
-
-        <div class="botao_nav"><p>Anuncie Agora</p></div>
+  <!-- Sidebar / Mobile Navigation -->
+  <aside id="sidebar" class="sidebar" role="navigation" aria-label="Menu principal">
+    <div class="sidebar__header">
+      <span class="sidebar__logo"><span class="icon">♿</span> AcessiMap</span>
+      <button id="sidebarClose" class="sidebar__close" aria-label="Fechar menu">&times;</button>
+    </div>
+    <nav class="sidebar__nav">
+      <!-- Each link uses a data-icon attribute to prepend an icon via CSS -->
+      <a href="Pagina_Pesquisa.html" class="sidebar__link" data-icon="⭐">Avaliar</a>
+      <a href="#places" class="sidebar__link" data-icon="🔍">Pesquisa</a>
+      <a href="#about" class="sidebar__link" data-icon="💡">Sobre</a>
+      <a href="#account" class="sidebar__link" data-icon="⚙️">Configurações</a>
     </nav>
+    <div class="sidebar__footer">Versão 2.0 — AcessiMap</div>
+  </aside>
 
-    <div id="principal">
-        <div class="overlay"></div>
-
-        <div class="conteudo_principal">
-            <h1>Anuncie no Johve</h1>
-            <p>Conecte seu negócio a milhares de pessoas que procuram lugares acessíveis</p>
-            <div class="botao_home"><a href="#">Anuncie Agora</a></div>
-        </div>
-        
+  <!-- Main Header -->
+  <header id="header" class="header">
+    <div class="header__left">
+      <button id="hamburgerBtn" class="header__hamburger" aria-label="Abrir menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
     </div>
+    <a href="#" class="header__brand">
+      <span class="header__brand-icon">♿</span> AcessiMap
+    </a>
+    <div class="header__right">
+      <button id="profileBtn" class="header__profile" aria-label="Abrir perfil" aria-haspopup="dialog">
+        <!-- Avatar generated via ui-avatars. The color uses the primary palette. -->
+        <img src="https://ui-avatars.com/api/?name=Joao+Silva&background=34d399&color=ffffff&rounded=true&bold=true" alt="Avatar" class="header__profile-img" />
+      </button>
+    </div>
+  </header>
 
-    <div id="promocao">
-        <div class="promo_container">
-            <h1>Johve Anuncio</h1>
-            <div class="promo_destaque">
-                <p class="promo_texto">
-                    Nosso site é uma plataforma dedicada a avaliar e divulgar estabelecimentos que oferecem boas condições de acessibilidade para cadeirantes e pessoas com mobilidade reduzida. Através de avaliações, informações detalhadas e feedback da comunidade, ajudamos milhares de pessoas a encontrar locais realmente preparados para receber todos com conforto e segurança.
-                </p>
-                <p class="promo_texto">
-                    Ao anunciar em nossa plataforma, seu estabelecimento passa a ser destacado para um público que busca ativamente lugares acessíveis.
-                </p>
+  <!-- Profile Modal -->
+  <div id="profileModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <div class="modal__box modal__box--sm">
+      <button id="profileModalClose" class="modal__close" aria-label="Fechar perfil">&times;</button>
+      <div class="profile__header">
+        <img src="https://ui-avatars.com/api/?name=Joao+Silva&background=34d399&color=ffffff&rounded=true&bold=true&size=88" alt="Avatar Grande" class="profile__avatar-lg" />
+        <h2 id="profileModalTitle" class="profile__name">João Silva</h2>
+        <p class="profile__email">joao.silva@email.com</p>
+      </div>
+      <div class="profile__stats">
+        <div class="profile__stat">
+          <strong>12</strong>
+          <span>Avaliações</span>
+        </div>
+        <div class="profile__stat">
+          <strong>5</strong>
+          <span>Favoritos</span>
+        </div>
+      </div>
+      <div class="profile__actions">
+        <button class="btn btn--outline btn--full">Editar perfil</button>
+        <button class="btn btn--ghost btn--full">Sair</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="container hero__container">
+        <div class="hero__content animate-on-scroll">
+          <span class="hero__badge">Conectando espaços e pessoas</span>
+          <h1 class="hero__title">
+            Descubra lugares<br />
+            <span class="text-highlight">verdadeiramente</span> acessíveis
+          </h1>
+          <p class="hero__desc">Explore restaurantes, academias e pontos turísticos avaliados pela comunidade quanto à sua infraestrutura de acessibilidade.</p>
+          <div class="hero__actions">
+            <a href="#places" class="btn btn--primary btn--lg">Explorar Locais</a>
+            <a href="Pagina_Pesquisa.html" class="btn btn--primary-light btn--lg">Avaliar um Local</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Places Section with Tabs and Cards -->
+    <section id="places" class="places-section">
+      <div class="container">
+        <div class="section-header animate-on-scroll">
+          <h2 class="section-title">Encontre seu próximo destino</h2>
+          <p class="section-desc">Locais categorizados e avaliados com base na experiência real de acessibilidade.</p>
+        </div>
+
+        <!-- Tab buttons -->
+        <div class="tabs__controls" role="tablist" aria-label="Categorias de locais">
+          <button class="tab-btn tab-btn--active" role="tab" aria-selected="true" data-tab="destaques">⭐ Destaques</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="restaurantes">🍽️ Restaurantes</button>
+          <button class="tab-btn" role="tab" aria-selected="false" data-tab="turismo">🏛️ Turismo</button>
+        </div>
+
+        <!-- Tab panels -->
+        <div class="tabs__panels">
+          <!-- Destaques panel -->
+          <div id="tab-destaques" class="tab-panel tab-panel--active" role="tabpanel">
+            <div class="cards-grid">
+              <!-- Card 1 -->
+              <article class="card animate-on-scroll" data-id="1" style="--delay:.05s">
+                <div class="card-media">
+                  <!-- Placeholder gradient can be replaced by a real image in the future -->
+                  <div class="card-image bg-gradient-1"></div>
+                  <span class="card-badge">Destaque</span>
+                </div>
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Restaurante Sabor &amp; Vida</h3>
+                    <span class="card-category">🍽️ Restaurante</span>
+                  </header>
+                  <p class="card-description">Ambiente totalmente adaptado com rampas, banheiros acessíveis e cardápio em braile.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="5 estrelas">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-score">5.0</span>
+                    </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
+                </div>
+              </article>
+
+              <!-- Card 2 -->
+              <article class="card animate-on-scroll" data-id="2" style="--delay:.1s">
+                <div class="card-media">
+                  <div class="card-image bg-gradient-2"></div>
+                  <span class="card-badge card-badge--new">Novo</span>
+                </div>
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Academia MoveBem</h3>
+                    <span class="card-category">🏋️ Academia</span>
+                  </header>
+                    <p class="card-description">Equipamentos adaptados, instrutores especializados e amplo estacionamento para PCD.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="4.8 estrelas">
+                      <span class="stars">★★★★☆</span>
+                      <span class="rating-score">4.8</span>
+                    </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
+                </div>
+              </article>
+
+              <!-- Card 3 -->
+              <article class="card animate-on-scroll" data-id="3" style="--delay:.15s">
+                <div class="card-media">
+                  <div class="card-image bg-gradient-3"></div>
+                </div>
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Museu da Cidade</h3>
+                    <span class="card-category">🏛️ Cultura</span>
+                  </header>
+                  <p class="card-description">Audioguia interativo, piso tátil, elevadores e visitas guiadas adaptadas.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="4.9 estrelas">
+                      <span class="stars">★★★★★</span>
+                      <span class="rating-score">4.9</span>
+                    </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
+                </div>
+              </article>
+
+              <!-- Card 4 -->
+              <article class="card animate-on-scroll" data-id="4" style="--delay:.2s">
+                <div class="card-media">
+                  <div class="card-image bg-gradient-4"></div>
+                </div>
+                <div class="card-body">
+                  <header class="card-header">
+                    <h3 class="card-title">Parque Central</h3>
+                    <span class="card-category">🌳 Lazer</span>
+                  </header>
+                  <p class="card-description">Trilhas 100% pavimentadas, áreas de descanso frequentes e banheiros família.</p>
+                  <footer class="card-footer">
+                    <div class="card-rating" aria-label="4.7 estrelas">
+                      <span class="stars">★★★★☆</span>
+                      <span class="rating-score">4.7</span>
+                    </div>
+                    <button class="btn btn--primary-light btn--sm">Ver detalhes</button>
+                  </footer>
+                </div>
+              </article>
             </div>
+          </div>
 
-            <button class="botao_promo">Aproveitar Promoção</button>
+          <!-- Outros painéis -->
+          <div id="tab-restaurantes" class="tab-panel" role="tabpanel"><p class="empty-state">Mais restaurantes em breve...</p></div>
+          <div id="tab-turismo" class="tab-panel" role="tabpanel"><p class="empty-state">Pontos turísticos em breve...</p></div>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <div id="produtos">
-        <div class="produtos_container">
-            <h1>Nossos Produtos</h1>
-
-            <div class="cards_produtos">
-                <div class="produto_card">
-                    <h2>Johve Cloud</h2>
-                    <p>
-                        Armazene dados com segurança e acesse de qualquer lugar.
-                    </p>
-
-                    <button>Saiba Mais</button>
-                </div>
-
-                <div class="produto_card">
-                    <h2>Johve Analytics</h2>
-                    <p>Analise dados da sua empresa com gráficos inteligentes. </p>
-                    <button>Saiba Mais</button>
-                </div>
-
-                <div class="produto_card">
-                    <h2>Johve AI</h2>
-                    <p>Automatize tarefas utilizando inteligência artificial.</p>
-                    <button>Saiba Mais</button>
-                </div>
+    <!-- About Section -->
+    <section id="about" class="about">
+      <div class="container about__grid">
+        <div class="about__content animate-on-scroll">
+          <span class="tag">Sobre Nós</span>
+          <h2 class="about__title">Promovendo autonomia e inclusão</h2>
+          <p class="about__desc">O AcessiMap é mais do que um guia, é uma plataforma colaborativa focada em empoderar pessoas através da informação clara e confiável sobre acessibilidade em espaços públicos e privados.</p>
+          <ul class="about__list">
+            <li><span class="icon">✅</span> Informações verificadas pela comunidade</li>
+            <li><span class="icon">✅</span> Foco total em acessibilidade motora</li>
+            <li><span class="icon">✅</span> Design inclusivo pensado para todos</li>
+          </ul>
+        </div>
+        <div class="about__visual animate-on-scroll" style="--delay:.15s">
+          <div class="stat-box">
+            <span class="stat-box__icon">📍</span>
+            <div>
+              <strong class="stat-box__number">1.2k+</strong>
+              <span class="stat-box__label">Locais Mapeados</span>
             </div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-box__icon">⭐</span>
+            <div>
+              <strong class="stat-box__number">8.5k+</strong>
+              <span class="stat-box__label">Avaliações</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__container">
+      <div class="footer__brand">
+        <div class="footer__logo"><span class="icon">♿</span> AcessiMap</div>
+        <p>Criando um mundo sem barreiras.</p>
+      </div>
+      <div class="footer__links">
+        <a href="#hero">Início</a>
+        <a href="#places">Explorar</a>
+        <a href="Pagina_Pesquisa.html">Avaliar Local</a>
+        <a href="#about">Sobre Nós</a>
+      </div>
+      <div class="footer__copy">&copy; 2026 AcessiMap. Todos os direitos reservados.</div>
     </div>
-    <div id="contato">
-        <div class="caixa_form">
-            <h1>Contato</h1>
-            <form action="#" method="post">
-                <label for="fnome">Nome:</label>
-                <input type="text" id="fnome" name="fnome" placeholder="Nome" required>
-                <label for="femail">E-mail:</label>
-                <input type="email" id="femail" name="femail" placeholder="E-mail" required>
-                <label for="festado">Estado:</label>
+  </footer>
 
-                <select name="festado" id="festado">
-                    <option value="pr">PR</option>
-                    <option value="sc">SC</option>
-                    <option value="rs">RS</option>
-                </select>
-
-                <label for="fmsg">Mensagem:</label>
-
-                <textarea name="fmsg" rows="5" cols="30" placeholder="Informe a mensagem"></textarea>
-
-                <input type="submit" value="Enviar">
-            </form>
-        </div>
-    </div>
-    <footer>
-        <p>&copy2026 Jhove. Todos os direitos reservados. </p>
-    </footer>
-
+  <script src="scripts/script_pagina_principal.js"></script>
 </body>
 </html>
